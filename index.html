@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ProFuel — Athlete Diet Planner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ════════ NAVIGATION ════════ -->
+<nav>
+  <div class="nav-brand">ProFuel</div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="showPage('home')">🏠 Home</button>
+    <button class="nav-link" onclick="showPage('foods')">🥗 Foods</button>
+    <button class="nav-link" onclick="showPage('planner')">📅 Planner</button>
+    <button class="nav-link" onclick="showPage('compare')">⚖️ Compare</button>
+    <button class="nav-link" onclick="showPage('water')">💧 Water</button>
+  </div>
+</nav>
+
+<!-- ════════ PAGE: HOME ════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <span class="hero-eye">Fuel Your Performance</span>
+    <h1>ATHLETE<br>DIET PLANNER</h1>
+    <p class="hero-sub">Sport-specific nutrition for gym athletes, swimmers, runners, cyclists &amp; more</p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="showPage('foods')">🚀 Build My Plan</button>
+      <button class="btn-sec"     onclick="showPage('planner')">📅 Open Planner</button>
+    </div>
+  </div>
+
+  <!-- Sport Selector -->
+  <div class="sport-section">
+    <span class="sec-eyebrow">① Choose Your Sport Profile</span>
+    <div class="sport-grid" id="sportGrid">
+      <div class="sport-card" data-sport="gym"    onclick="selectSport(this)"><span class="sport-icon">🏋️</span><div class="sport-name">Gym / Bodybuilding</div><div class="sport-desc">Hypertrophy &amp; strength</div></div>
+      <div class="sport-card" data-sport="swim"   onclick="selectSport(this)"><span class="sport-icon">🏊</span><div class="sport-name">Swimming</div><div class="sport-desc">Endurance &amp; power</div></div>
+      <div class="sport-card" data-sport="run"    onclick="selectSport(this)"><span class="sport-icon">🏃</span><div class="sport-name">Running</div><div class="sport-desc">Cardio &amp; stamina</div></div>
+      <div class="sport-card" data-sport="cycle"  onclick="selectSport(this)"><span class="sport-icon">🚴</span><div class="sport-name">Cycling</div><div class="sport-desc">Aerobic efficiency</div></div>
+      <div class="sport-card" data-sport="yoga"   onclick="selectSport(this)"><span class="sport-icon">🧘</span><div class="sport-name">Yoga / Pilates</div><div class="sport-desc">Flexibility &amp; lean</div></div>
+      <div class="sport-card" data-sport="combat" onclick="selectSport(this)"><span class="sport-icon">🥊</span><div class="sport-name">Combat Sports</div><div class="sport-desc">Cut weight &amp; power</div></div>
+      <div class="sport-card" data-sport="field"  onclick="selectSport(this)"><span class="sport-icon">⚽</span><div class="sport-name">Field Sports</div><div class="sport-desc">Speed &amp; agility</div></div>
+      <div class="sport-card" data-sport="cross"  onclick="selectSport(this)"><span class="sport-icon">⚡</span><div class="sport-name">CrossFit / HIIT</div><div class="sport-desc">Power &amp; conditioning</div></div>
+    </div>
+  </div>
+
+  <!-- Athlete Profile Banner -->
+  <div class="profile-banner" id="profileBanner">
+    <div class="profile-inner">
+      <div class="profile-avatar" id="profAvatar">🏋️</div>
+      <div class="profile-info">
+        <div class="profile-name" id="profName">GYM ATHLETE</div>
+        <div class="profile-sport-label" id="profSport">Bodybuilding &amp; Strength</div>
+        <div class="profile-stats">
+          <div class="pstat">Protein ratio: <span id="profRatio">—</span></div>
+          <div class="pstat">Focus: <span id="profFocus">—</span></div>
+          <div class="pstat">Training: <span id="profDays">—</span></div>
+        </div>
+      </div>
+      <div class="profile-tip">
+        <strong>🎯 Sport Nutrition Tip</strong>
+        <span id="profTip">Select a sport to see tips.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><hr></div>
+
+  <!-- Macro Calculator -->
+  <div class="calc-wrap">
+    <div class="calc-card">
+      <div class="calc-label">② MACRO CALCULATOR</div>
+      <div class="calc-row">
+        <div class="field">
+          <label>Weight kg</label>
+          <input id="weight" type="number" min="1" step="0.1" placeholder="70">
+        </div>
+        <div class="field">
+          <label>Height cm</label>
+          <input id="height" type="number" placeholder="175">
+        </div>
+        <div class="field">
+          <label>Age</label>
+          <input id="age" type="number" placeholder="25">
+        </div>
+        <div class="field">
+          <label>Gender</label>
+          <select id="gender">
+            <option value="m">Male</option>
+            <option value="f">Female</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Activity</label>
+          <select id="activity">
+            <option value="1.2">Sedentary</option>
+            <option value="1.375">Light Active</option>
+            <option value="1.55" selected>Moderate</option>
+            <option value="1.725">Very Active</option>
+            <option value="1.9">Elite Athlete</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Goal</label>
+          <select id="goal">
+            <option value="maintain">Maintain</option>
+            <option value="gain">Muscle Gain</option>
+            <option value="cut">Fat Loss</option>
+            <option value="perform">Performance</option>
+          </select>
+        </div>
+        <button class="btn-calc" onclick="calculate()">Calculate ⚡</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Macro Summary Cards -->
+  <div class="macro-row" id="macroRow">
+    <div class="mbox" data-t="cal"><div class="mval" id="mCal">—</div><div class="mlabel">Calories</div></div>
+    <div class="mbox" data-t="pro"><div class="mval" id="mPro">—</div><div class="mlabel">Protein g</div></div>
+    <div class="mbox" data-t="carb"><div class="mval" id="mCarb">—</div><div class="mlabel">Carbs g</div></div>
+    <div class="mbox" data-t="fat"><div class="mval" id="mFat">—</div><div class="mlabel">Fat g</div></div>
+  </div>
+
+  <!-- Progress Bars -->
+  <div class="prog-section" id="progSection">
+    <div class="prog-row">
+      <div class="prog-hdr"><span id="pLabP">Protein 0g / 0g</span><span id="pPctP">0%</span></div>
+      <div class="prog-track"><div class="prog-fill p" id="pFP"></div></div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-hdr"><span id="pLabC">Carbs 0g / 0g</span><span id="pPctC">0%</span></div>
+      <div class="prog-track"><div class="prog-fill c" id="pFC"></div></div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-hdr"><span id="pLabF">Fat 0g / 0g</span><span id="pPctF">0%</span></div>
+      <div class="prog-track"><div class="prog-fill f" id="pFF"></div></div>
+    </div>
+  </div>
+
+  <div class="divider"><hr></div>
+
+  <!-- Plan Export Output -->
+  <div class="plan-out" id="planOut">
+    <div class="plan-out-card">
+      <button class="plan-copy-btn" onclick="copyPlan()">Copy 📋</button>
+      <pre id="planText"></pre>
+    </div>
+  </div>
+
+</div><!-- end #page-home -->
+
+
+<!-- ════════ PAGE: FOODS ════════ -->
+<div id="page-foods" class="page">
+
+  <div class="page-hdr">
+    <div>
+      <div class="page-title">FOOD LIBRARY</div>
+      <div class="page-sub">Click to select · Double-click for full details &amp; meal assignment</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <span class="badge" id="countBadge">0 selected</span>
+      <button class="btn-sm blue"  onclick="showPage('planner')">📅 Planner</button>
+      <button class="btn-sm green" onclick="exportPlan()">Export Plan</button>
+    </div>
+  </div>
+
+  <!-- Filter Tabs -->
+  <div class="filter-bar">
+    <button class="ftab active" data-tab="all"     onclick="setTab(this,'all')">All</button>
+    <button class="ftab"        data-tab="veg"     onclick="setTab(this,'veg')">🥗 Veg</button>
+    <button class="ftab"        data-tab="nonveg"  onclick="setTab(this,'nonveg')">🍗 Non-Veg</button>
+    <button class="ftab"        data-tab="gym"     onclick="setTab(this,'gym')">🏋️ Gym</button>
+    <button class="ftab"        data-tab="swim"    onclick="setTab(this,'swim')">🏊 Swim</button>
+    <button class="ftab"        data-tab="run"     onclick="setTab(this,'run')">🏃 Run</button>
+    <button class="ftab"        data-tab="cycle"   onclick="setTab(this,'cycle')">🚴 Cycle</button>
+    <button class="ftab"        data-tab="combat"  onclick="setTab(this,'combat')">🥊 Combat</button>
+    <button class="ftab"        data-tab="field"   onclick="setTab(this,'field')">⚽ Field</button>
+    <button class="ftab"        data-tab="highpro" onclick="setTab(this,'highpro')">🔥 High Protein</button>
+  </div>
+
+  <!-- Search & Sort -->
+  <div class="ctrl-bar">
+    <input  class="search-inp" id="searchBox" type="text" placeholder="Search foods…" oninput="renderGrid()">
+    <select class="sort-sel"   id="sortSel"   onchange="renderGrid()">
+      <option value="default">Sort: Default</option>
+      <option value="pro-hi">Protein ↓</option>
+      <option value="pro-lo">Protein ↑</option>
+      <option value="cal-hi">Calories ↓</option>
+      <option value="cal-lo">Calories ↑</option>
+    </select>
+  </div>
+
+  <!-- Food Cards (rendered by JS) -->
+  <div class="food-grid" id="foodGrid"></div>
+
+</div><!-- end #page-foods -->
+
+
+<!-- ════════ PAGE: PLANNER ════════ -->
+<div id="page-planner" class="page">
+
+  <div class="page-hdr">
+    <div>
+      <div class="page-title">MEAL PLANNER</div>
+      <div class="page-sub">Click a meal to expand · Assign foods to specific meals</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn-sm green" onclick="generateAutoplan()">⚡ Auto-fill</button>
+      <button class="btn-sm blue"  onclick="showPage('foods')">+ Add Foods</button>
+      <button class="btn-sm red"   onclick="clearPlanner()">Clear All</button>
+    </div>
+  </div>
+
+  <!-- Meal slots (rendered by JS) -->
+  <div class="planner-wrap" id="plannerWrap"></div>
+
+</div><!-- end #page-planner -->
+
+
+<!-- ════════ PAGE: COMPARE ════════ -->
+<div id="page-compare" class="page">
+
+  <div class="page-hdr">
+    <div>
+      <div class="page-title">FOOD COMPARE</div>
+      <div class="page-sub">Side-by-side macro breakdown of any two foods</div>
+    </div>
+  </div>
+
+  <div class="compare-wrap">
+    <div class="compare-selector">
+      <div class="cmp-slot">
+        <label>Food A</label>
+        <select id="cmpA" onchange="runCompare()"><option value="">— Select —</option></select>
+      </div>
+      <div class="cmp-slot">
+        <label>Food B</label>
+        <select id="cmpB" onchange="runCompare()"><option value="">— Select —</option></select>
+      </div>
+    </div>
+    <div class="cmp-result" id="cmpResult">
+      <div class="cmp-header">
+        <div class="cmp-food-name" id="cmpNA">—</div>
+        <div class="cmp-vs">VS</div>
+        <div class="cmp-food-name" id="cmpNB">—</div>
+      </div>
+      <div id="cmpBars"></div>
+    </div>
+  </div>
+
+</div><!-- end #page-compare -->
+
+
+<!-- ════════ PAGE: WATER ════════ -->
+<div id="page-water" class="page">
+  <div class="water-wrap">
+    <div class="water-title">💧 HYDRATION</div>
+    <div class="water-sub">Stay hydrated for peak athletic performance</div>
+
+    <!-- Custom Target -->
+    <div class="water-target-row">
+      <label>Daily Target (ml)</label>
+      <input id="waterTargetInput" type="number" value="2500" min="500" max="6000" step="100" oninput="updateWaterTarget()">
+    </div>
+
+    <!-- Animated Glass -->
+    <div class="glass-outer" onclick="addWater(250)" title="Click to add 250ml">
+      <div class="glass-bg">
+        <div class="glass-fill" id="glassFill" style="height:0%"></div>
+      </div>
+      <div class="glass-pct" id="glassPct">0%</div>
+    </div>
+
+    <div class="water-info" id="waterInfo">0 ml consumed · 2500 ml remaining</div>
+
+    <!-- Quick-add Buttons -->
+    <div class="water-btns">
+      <button class="wbtn" onclick="addWater(150)">+150ml</button>
+      <button class="wbtn" onclick="addWater(250)">+250ml</button>
+      <button class="wbtn" onclick="addWater(500)">+500ml</button>
+      <button class="wbtn" onclick="addWater(750)">+750ml</button>
+    </div>
+
+    <button class="wreset" onclick="resetWater()">↺ Reset today</button>
+
+    <!-- Log -->
+    <div class="water-log">
+      <div class="water-log-title">Today's log</div>
+      <div id="waterLog"></div>
+    </div>
+  </div>
+</div><!-- end #page-water -->
+
+
+<!-- ════════ FOOD DETAIL MODAL ════════ -->
+<div class="overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <img class="modal-img" id="modalImg" src="" alt="">
+    <div class="modal-body">
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-sub"  id="modalSub"></div>
+      <table class="modal-table" id="modalTable"></table>
+      <div class="qty-row">
+        <span style="font-size:.76rem;color:var(--text-muted)">Servings:</span>
+        <button class="qty-btn" onclick="chgQty(-1)">−</button>
+        <input id="modalQty" type="number" min="1" max="20" value="1">
+        <button class="qty-btn" onclick="chgQty(1)">+</button>
+        <span style="font-size:.74rem;color:var(--text-muted)" id="qtyCalc"></span>
+      </div>
+      <div class="modal-meal-lbl">Assign to Meal (optional)</div>
+      <div class="meal-assign-row" id="mealAssignRow"></div>
+      <button class="btn-add-m" id="modalAddBtn" onclick="addFromModal()">Add to Plan</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ QUICK-ADD MODAL ════════ -->
+<div class="overlay" id="qaOverlay">
+  <div class="qa-modal">
+    <button class="modal-close" onclick="closeQA()">×</button>
+    <div id="qaMealName" style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;margin-bottom:13px">Add to Meal</div>
+    <div style="font-size:.68rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px">Select Food</div>
+    <select id="qaFoodSel" style="width:100%;background:var(--card2);border:1px solid var(--border2);border-radius:7px;color:var(--text);font-family:inherit;font-size:.85rem;padding:9px;outline:none;margin-bottom:13px">
+      <option value="">— Pick a food —</option>
+    </select>
+    <div class="qty-row" style="margin-bottom:14px">
+      <span style="font-size:.76rem;color:var(--text-muted)">Servings:</span>
+      <button class="qty-btn" onclick="chgQAQty(-1)">−</button>
+      <input id="qaQty" type="number" min="1" max="10" value="1">
+      <button class="qty-btn" onclick="chgQAQty(1)">+</button>
+    </div>
+    <button class="btn-add-m" onclick="confirmQA()">Add ✓</button>
+  </div>
+</div>
+
+
+<!-- ════════ TOAST ════════ -->
+<div class="toast" id="toast"></div>
+
+
+<!-- ════════ BOTTOM SELECTION PANEL ════════ -->
+<div class="sel-panel" id="selPanel">
+  <div class="sel-chips" id="selChips"></div>
+  <div class="sel-total" id="selTotal"></div>
+  <button class="btn-sm blue"  onclick="showPage('planner')">📅</button>
+  <button class="btn-sm green" onclick="exportPlan()">Export</button>
+  <button class="btn-sm red"   onclick="clearAll()">Clear</button>
+</div>
+
+
+<!-- ════════ JAVASCRIPT ════════ -->
+<script src="script.js"></script>
+
+</body>
+</html>
